@@ -132,7 +132,8 @@ button:focus-visible { outline: 3px dashed var(--pen); outline-offset: 4px; }
 @keyframes fade { to { opacity: 1; } }
 .ship { text-align: center; font-family: var(--display); font-size: 30px; font-weight: 700; }
 
-.choices { display: grid; gap: 0; margin: 0; padding: 0; border: 0; }
+.choices { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.choice.wide { grid-column: 1 / -1; }
 .choices legend { padding: 0; font-family: var(--display); font-weight: 700; font-size: 28px; line-height: 34px; margin-bottom: 0; }
 .choice { display: flex; align-items: center; gap: 10px; cursor: pointer; line-height: 34px; }
 .choice input { position: absolute; opacity: 0; pointer-events: none; }
@@ -209,15 +210,29 @@ button:focus-visible { outline: 3px dashed var(--pen); outline-offset: 4px; }
       <label class="choice"><input type="radio" name="role" id="r1" value="pizza"><span class="box"></span>pizza 🍕</label>
       <label class="choice"><input type="radio" name="role" id="r2" value="sorvete"><span class="box"></span>sorvete 🍦</label>
       <label class="choice"><input type="radio" name="role" id="r3" value="cinema"><span class="box"></span>cinema 🍿</label>
-      <label class="choice"><input type="radio" name="role" id="r4" value="você escolhe"><span class="box"></span>você escolhe, eu topo</label>
+      <label class="choice"><input type="radio" name="role" id="r5" value="hambúrguer"><span class="box"></span>hambúrguer 🍔</label>
+      <label class="choice"><input type="radio" name="role" id="r6" value="japonês"><span class="box"></span>japonês 🍣</label>
+      <label class="choice"><input type="radio" name="role" id="r7" value="açaí"><span class="box"></span>açaí 🫐</label>
+      <label class="choice"><input type="radio" name="role" id="r8" value="barzinho"><span class="box"></span>barzinho 🍻</label>
+      <label class="choice"><input type="radio" name="role" id="r9" value="café"><span class="box"></span>café ☕</label>
+      <label class="choice"><input type="radio" name="role" id="r10" value="parque"><span class="box"></span>parque 🌳</label>
+      <label class="choice"><input type="radio" name="role" id="r11" value="boliche"><span class="box"></span>boliche 🎳</label>
+      <label class="choice"><input type="radio" name="role" id="r12" value="shopping"><span class="box"></span>shopping 🛍️</label>
+      <label class="choice"><input type="radio" name="role" id="r13" value="ver o pôr do sol"><span class="box"></span>pôr do sol 🌅</label>
+      <label class="choice wide"><input type="radio" name="role" id="r4" value="você escolhe"><span class="box"></span>você escolhe, eu topo</label>
     </fieldset>
     <div class="gap"></div>
     <fieldset class="choices">
       <legend>Quando:</legend>
+      <label class="choice"><input type="radio" name="dia" id="d5" value="segunda"><span class="box"></span>segunda</label>
+      <label class="choice"><input type="radio" name="dia" id="d6" value="terça"><span class="box"></span>terça</label>
+      <label class="choice"><input type="radio" name="dia" id="d7" value="quarta"><span class="box"></span>quarta</label>
+      <label class="choice"><input type="radio" name="dia" id="d8" value="quinta"><span class="box"></span>quinta</label>
       <label class="choice"><input type="radio" name="dia" id="d1" value="sexta"><span class="box"></span>sexta</label>
       <label class="choice"><input type="radio" name="dia" id="d2" value="sábado"><span class="box"></span>sábado</label>
       <label class="choice"><input type="radio" name="dia" id="d3" value="domingo"><span class="box"></span>domingo</label>
-      <label class="choice"><input type="radio" name="dia" id="d4" value="hoje mesmo"><span class="box"></span>hoje mesmo, pra que esperar</label>
+      <label class="choice"><input type="radio" name="dia" id="d9" value="amanhã"><span class="box"></span>amanhã</label>
+      <label class="choice wide"><input type="radio" name="dia" id="d4" value="hoje mesmo"><span class="box"></span>hoje mesmo, pra que esperar</label>
     </fieldset>
     <p class="hint" id="hint"></p>
     <div class="answers" style="margin-top:0">
@@ -332,9 +347,10 @@ $("done").addEventListener("click", () => {
     return;
   }
   const r = role.value, d = dia.value;
+  const quando = d === "hoje mesmo" || d === "amanhã" ? d : (d === "sábado" || d === "domingo" ? "no " : "na ") + d;
   $("summary").textContent = r === "você escolhe"
-    ? `Você escolhe o rolê, ${d === "hoje mesmo" ? "e é hoje mesmo" : "no " + d}.`
-    : `${r[0].toUpperCase() + r.slice(1)}, ${d === "hoje mesmo" ? "hoje mesmo" : d === "domingo" || d === "sábado" ? "no " + d : "na " + d}. Eu e você.`;
+    ? `Você escolhe o rolê, ${quando}.`
+    : `${r[0].toUpperCase() + r.slice(1)}, ${quando}. Eu e você.`;
   const msg = `Luan, eu aceito 😌 Rolê: ${r}. Quando: ${d}. Agora não tem mais volta, Lumila é oficial.`;
   $("whats").href = `https://wa.me/${WHATS_LUAN}?text=${encodeURIComponent(msg)}`;
   show("s-end");
